@@ -9,7 +9,7 @@
 #   Deployed Backend URL will go here later
 ```
 
-## Description
+## Description and Features
 * Create a backend REST APIs full project of review and rating system for the events.
 * User Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for   secure user authentication.
 * Organizer Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for secure user authentication.
@@ -18,6 +18,7 @@
 * User after SignUp/loggedIn, can view all reviews of a event, submit review, like review, report review, give rating for different criteria like registrationExperience, eventExperience, breakFastExperience and overall ratings.
 * If report of a review is greater than or equal to 5 then that review will be flagged.
 * Organizer can respond to a particular review.
+* Implementing pagination features for browsing through rating/reviews, ensuring efficient handling of large datasets.
 
 ## Tech Stack
 
