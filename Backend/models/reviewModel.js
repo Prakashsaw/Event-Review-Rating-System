@@ -12,6 +12,7 @@ const reviewSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
+    reviewContent: { type: String, required: true },
     registrationExperience: { type: Number, min: 1, max: 5 },
     eventExperience: { type: Number, min: 1, max: 5 },
     breakfastExperience: { type: Number, min: 1, max: 5 },

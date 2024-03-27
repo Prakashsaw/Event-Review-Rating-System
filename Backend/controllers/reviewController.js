@@ -34,8 +34,15 @@ export const getReviews = async (req, res) => {
 };
 
 export const submitReview = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized User. Invalid token. Login Again...!",
+    });
+  }
   const eventId = req.params.eventId;
   const {
+    reviewContent,
     registrationExperience,
     eventExperience,
     breakfastExperience,
@@ -45,6 +52,7 @@ export const submitReview = async (req, res) => {
   try {
     // Implement review submission logic
     if (
+      !reviewContent ||
       !registrationExperience ||
       !eventExperience ||
       !breakfastExperience ||
@@ -59,6 +67,7 @@ export const submitReview = async (req, res) => {
     const review = new ReviewModel({
       eventId,
       userId,
+      reviewContent,
       registrationExperience,
       eventExperience,
       breakfastExperience,
@@ -112,8 +121,32 @@ export const likeReview = async (req, res) => {
 };
 
 export const reportReview = async (req, res) => {
+  // Implement report review logic
+  if (!req.user) {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized User. Invalid token. Login Again...!",
+    });
+  }
+
+  const reviewId = req.params.id;
   try {
-    // Implement report review logic
+    const review = await ReviewModel.findById({ _id: reviewId });
+    if (!review) {
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Review not found" });
+    }
+    // Increment the reports count
+    review.reports++;
+    // If a review is reported more than 5 times, flag it
+    if (review.reports >= 5) {
+      review.flagged = true;
+    }
+    await review.save();
+    res
+      .status(200)
+      .json({ status: "success", message: "Review reported successfully" });
   } catch (error) {
     console.log(error);
     res
@@ -122,9 +155,35 @@ export const reportReview = async (req, res) => {
   }
 };
 
+// Implement response to review logic: Make sure that only the event organizer can respond to a review
 export const respondToReview = async (req, res) => {
+  if (!req.organizer) {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized Organizer. Invalid token. Login Again...!",
+    });
+  }
+  const reviewId = req.params.id;
+  const { response } = req.body;
   try {
-    // Implement response to review logic
+    if (!response) {
+      return res.status(400).json({
+        status: "failed",
+        message: "Response is required to respond to a review",
+      });
+    }
+    const review = await ReviewModel.findById({ _id: reviewId });
+    if (!review) {
+      return res
+        .status(404)
+        .json({ status: "failed", message: "Review not found" });
+    }
+    review.response = response;
+    await review.save();
+    res.status(200).json({
+      status: "success",
+      message: "Response of review by organizer added successfully",
+    });
   } catch (error) {
     console.log(error);
     res
@@ -134,8 +193,31 @@ export const respondToReview = async (req, res) => {
 };
 
 export const getReviewSummary = async (req, res) => {
+  // Implement get review summary logic for a particular event
+  if (!req.user) {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized User. Invalid token. Login Again...!",
+    });
+  }
+  const eventId = req.params.eventId;
   try {
-    // Implement get review summary logic
+    const reviews = await ReviewModel.find({ eventId: eventId });
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ status: "failed", message: "No reviews found for this event" });
+    }
+    const totalReviews = reviews.length;
+    const averageOverallRating =
+      reviews.reduce((acc, review) => acc + review.overallRating, 0) /
+      totalReviews;
+    res.status(200).json({
+      status: "success",
+      message: "Review summary fetched successfully",
+      totalReviews,
+      averageOverallRating,
+    });
   } catch (error) {
     console.log(error);
     res
@@ -145,8 +227,42 @@ export const getReviewSummary = async (req, res) => {
 };
 
 export const getRatingForCriteria = async (req, res) => {
+  // Implement get rating for criteria logic for a particular event (event wise)
+  if (!req.user) {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized User. Invalid token. Login Again...!",
+    });
+  }
+  const eventId = req.params.eventId;
+  console.log("eventId", eventId);
   try {
-    // Implement get rating for criteria logic
+    const reviews = await ReviewModel.find({ eventId: eventId });
+    if (!reviews || reviews.length === 0) {
+      return res
+        .status(404)
+        .json({ status: "failed", message: "No reviews found for this event" });
+    }
+    // Now calculate the average rating for each criteria
+    const totalReviews = reviews.length;
+    const registrationExperience =
+      reviews.reduce((acc, review) => acc + review.registrationExperience, 0) /
+      totalReviews;
+    const eventExperience =
+      reviews.reduce((acc, review) => acc + review.eventExperience, 0) /
+      totalReviews;
+    const breakfastExperience =
+      reviews.reduce((acc, review) => acc + review.breakfastExperience, 0) /
+      totalReviews;
+
+    res.status(200).json({
+      status: "success",
+      message:
+        "Overall rating for different criteria for a particular event fetched successfully",
+      registrationExperience,
+      eventExperience,
+      breakfastExperience,
+    });
   } catch (error) {
     console.log(error);
     res
