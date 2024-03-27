@@ -10,9 +10,10 @@
 ```
 
 ## Description
-* Create a backend full project of review and rating system for the events.
+* Create a backend REST APIs full project of review and rating system for the events.
 * User Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for   secure user authentication.
 * Organizer Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for secure user authentication.
+* Implementing middlewares for both user authorization and organizer authorization for secure APIs accessibility.
 * Organizer can create/schedule events, display all the events, update/reschedule events and delete event also.
 * User after SignUp/loggedIn, can view all reviews of a event, submit review, like review, report review, give rating for different criteria like registrationExperience, eventExperience, breakFastExperience and overall ratings.
 * If report of a review is greater than or equal to 5 then that review will be flagged.
@@ -24,7 +25,7 @@
 
 **Database:** MongoDB.
 
-**Backend APIs testing:** Postman
+**Backend APIs Testing Tool:** Postman.
 
 
 
