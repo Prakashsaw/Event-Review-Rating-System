@@ -12,6 +12,12 @@
 #   Deployed Backend URL will go here later
 ```
 
+## To Access All the APIs tested on POSTMAN use below URL:
+
+```bash
+    https://lunar-crescent-279799.postman.co/workspace/Team-Workspace~57e4e80b-cbeb-4bed-8414-9c28139b9dd2/collection/25159059-e33e23f5-5eba-4fb6-a056-307bc3fd195e?action=share&creator=25159059&active-environment=25159059-d99bb387-6286-4b36-a31d-f83395388d55
+```
+
 ## Description and Features
 
 - Create a backend REST APIs full project of review and rating system for the events.
