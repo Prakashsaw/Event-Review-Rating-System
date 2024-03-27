@@ -44,7 +44,7 @@
   cd Event-Review-Rating-System
 ```
 
-**Step:3-** Install all the dependencies in backend folder.
+**Step:3-** Install all the dependencies in Backend folder.
 
 * Installl dependencies for backend
 ```bash
@@ -52,7 +52,7 @@
   npm install
 ```
 
-**Step:4-** Make .env file in your server folder which will contain all your development environment variables with private keys
+**Step:4-** Make .env file in your Backend folder which will contain all your development environment variables with private keys and their values
 ```bash
   PORT = 
   MONGO_URL = 
@@ -61,38 +61,16 @@
   JWT_SECRETE_KEY = 
 ```
 
-**Step:5-** Start the backend server / app
+**Step:5-** Start the Backend server / app
 
-* Start the client
+* Start the app.js
 ```bash
   //open new terminal
-  cd backend
+  cd Backend/
   npm run dev
 ```
 
 **Step:6-** Now Review and Rating System App is running in your local system.
-
-<!-- ## Features
-
-#### Login and Registration with full user validation.
-
-#### Validate user email with sending email for email confirmation link email then user email have been verified.
-
-#### User authentication and authorization using JWT token for secure user authentication.
-
-#### Forgot password features when user don't remembered their password.
-
-#### User can Update their profile details after loggedIn and also able to change their password as well.
-
-#### User can add their transaction, edit transaction, delete transaction with confirmation.
-
-#### User can view their finantial transaction in weekly, monthly and yealy basis (filterration).
-
-#### User can view transaction history by selecting custom dates also.
-
-#### User can filter their transaction by category like by all income, all expenses and both income and expenses.
-
-#### User can view expense analytics and visualizations in graphs and charts. -->
 
 
 ## Made By
