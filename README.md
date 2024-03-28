@@ -20,7 +20,7 @@
 
 ## Description and Features
 
-- Create a backend REST APIs full project of review and rating system for the events.
+- Created backend REST APIs full project of review and rating system for the events.
 - User Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for secure user authentication.
 - Organizer Login and SignUp functionality with full validation, bcrypt passsword in backend, JWT token for secure user authentication.
 - Implementing middlewares for both user authorization and organizer authorization for secure APIs accessibility.
