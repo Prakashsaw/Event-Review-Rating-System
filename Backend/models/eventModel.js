@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 
 const eventSchema = mongoose.Schema(
   {
+    eventId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    organizerId: {
+      type: String,
+      ref: "Organizer",
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -21,10 +31,6 @@ const eventSchema = mongoose.Schema(
     image: {
       type: String,
       required: true,
-    },
-    organizerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Organizer",
     },
   },
   { timestamps: true }

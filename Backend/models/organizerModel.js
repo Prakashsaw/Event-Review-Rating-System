@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 
 const organizerSchema = mongoose.Schema(
   {
+    organizerId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,

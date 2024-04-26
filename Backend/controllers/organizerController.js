@@ -2,6 +2,7 @@
 import OrganizerModel from "../models/organizerModel.js";
 import bcrypt from "bcrypt";
 import { createJWTToken } from "../utils/JWTServices.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const OrganizerLogin = async (req, res) => {
   try {
@@ -90,7 +91,9 @@ export const OrganizerSignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, genSalt);
 
     // Create organizer
+    const organizerId = uuidv4();
     const newOrganizer = new OrganizerModel({
+      organizerId,
       name,
       email,
       password: hashedPassword,

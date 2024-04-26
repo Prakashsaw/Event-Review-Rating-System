@@ -1,6 +1,7 @@
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { createJWTToken } from "../utils/JWTServices.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const UserLogin = async (req, res) => {
   try {
@@ -88,7 +89,9 @@ export const UserSignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create new user
+    const userId = uuidv4();
     const newUser = await UserModel.create({
+      userId,
       name,
       email,
       password: hashedPassword,

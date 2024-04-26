@@ -1,6 +1,7 @@
 // controllers for a particular event for review
 
 import ReviewModel from "../models/reviewModel.js";
+import { v4 as uuidv4 } from "uuid";
 
 // Implementation of the get reviews logic with pagination
 export const getReviews = async (req, res) => {
@@ -48,7 +49,7 @@ export const submitReview = async (req, res) => {
     breakfastExperience,
     overallRating,
   } = req.body;
-  const userId = req.user._id;
+  const userId = req.user.userId;
   try {
     // Implement review submission logic
     if (
@@ -64,7 +65,9 @@ export const submitReview = async (req, res) => {
       });
     }
 
+    const reviewId = uuidv4();
     const review = new ReviewModel({
+      reviewId,
       eventId,
       userId,
       reviewContent,
@@ -100,7 +103,7 @@ export const likeReview = async (req, res) => {
         message: "Unauthorized User. Invalid token. Login Again...!",
       });
     }
-    const review = await ReviewModel.findById({ _id: reviewId });
+    const review = await ReviewModel.findById({ reviewId: reviewId });
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
     }
@@ -131,7 +134,7 @@ export const reportReview = async (req, res) => {
 
   const reviewId = req.params.id;
   try {
-    const review = await ReviewModel.findById({ _id: reviewId });
+    const review = await ReviewModel.findById({ reviewId: reviewId });
     if (!review) {
       return res
         .status(404)
@@ -172,7 +175,7 @@ export const respondToReview = async (req, res) => {
         message: "Response is required to respond to a review",
       });
     }
-    const review = await ReviewModel.findById({ _id: reviewId });
+    const review = await ReviewModel.findById({ reviewId: reviewId });
     if (!review) {
       return res
         .status(404)

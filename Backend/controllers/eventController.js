@@ -1,6 +1,6 @@
 // All events Controlles : Like Create Event, Update Event, Delete Event, Get All Events, Get Event By ID
-
 import EventModel from "../models/eventModel.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export const CreateEvent = async (req, res) => {
   try {
@@ -28,13 +28,15 @@ export const CreateEvent = async (req, res) => {
       });
     }
 
+    const eventId = uuidv4();
     const newEvent = new EventModel({
+      eventId,
       title,
       description,
       date,
       location,
       image,
-      organizerId: req.organizer._id,
+      organizerId: req.organizer.organizerId,
     });
 
     await newEvent.save();
@@ -61,7 +63,7 @@ export const GetAllEvents = async (req, res) => {
         message: "Unauthorized Organizer. Invalid token. Login Again...!",
       });
     }
-    const events = await EventModel.find({ organizerId: req.organizer._id });
+    const events = await EventModel.find({ organizerId: req.organizer.organizerId });
     res.status(200).json({
       status: "success",
       message: "All events fetched successfully",
@@ -84,7 +86,7 @@ export const GetEventById = async (req, res) => {
         message: "Unauthorized Organizer. Invalid token. Login Again...!",
       });
     }
-    const event = await EventModel.findById(req.params.id);
+    const event = await EventModel.findOne({ eventId: req.params.id });
     res.status(200).json({
       status: "success",
       message: "Event fetched successfully",
@@ -107,7 +109,7 @@ export const UpdateEvent = async (req, res) => {
         message: "Unauthorized Organizer. Invalid token. Login Again...!",
       });
     }
-    const event = await EventModel.findById(req.params.id);
+    const event = await EventModel.findOne({ eventId: req.params.id });
     if (!event) {
       return res
         .status(404)
@@ -145,7 +147,7 @@ export const DeleteEvent = async (req, res) => {
         message: "Unauthorized Organizer. Invalid token. Login Again...!",
       });
     }
-    await EventModel.findByIdAndDelete(req.params.id);
+    await EventModel.findOneAndDelete({ eventId: req.params.id });
 
     res.status(200).json({
       status: "success",
