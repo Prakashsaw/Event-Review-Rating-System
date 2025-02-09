@@ -103,7 +103,7 @@ export const likeReview = async (req, res) => {
         message: "Unauthorized User. Invalid token. Login Again...!",
       });
     }
-    const review = await ReviewModel.findById({ reviewId: reviewId });
+    const review = await ReviewModel.findOne({ reviewId: reviewId });
     if (!review) {
       return res.status(404).json({ message: "Review not found" });
     }
@@ -134,7 +134,7 @@ export const reportReview = async (req, res) => {
 
   const reviewId = req.params.id;
   try {
-    const review = await ReviewModel.findById({ reviewId: reviewId });
+    const review = await ReviewModel.findOne({ reviewId: reviewId });
     if (!review) {
       return res
         .status(404)
@@ -175,7 +175,7 @@ export const respondToReview = async (req, res) => {
         message: "Response is required to respond to a review",
       });
     }
-    const review = await ReviewModel.findById({ reviewId: reviewId });
+    const review = await ReviewModel.findOne({ reviewId: reviewId });
     if (!review) {
       return res
         .status(404)
@@ -238,7 +238,6 @@ export const getRatingForCriteria = async (req, res) => {
     });
   }
   const eventId = req.params.eventId;
-  console.log("eventId", eventId);
   try {
     const reviews = await ReviewModel.find({ eventId: eventId });
     if (!reviews || reviews.length === 0) {
